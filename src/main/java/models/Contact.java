@@ -9,8 +9,11 @@ import lombok.ToString;
 @Getter
 @ToString
 @Builder
-public class User {
+public class Contact {
+    private String name;
+    private String lastName;
+    private String phone;
     private String email;
-    private String password;
-
+    private String address;
+    private String description;
 }

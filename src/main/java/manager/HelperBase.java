@@ -39,7 +39,7 @@ public class HelperBase {
         Alert alert = new WebDriverWait(wd, 10)
                 .until(ExpectedConditions.alertIsPresent());
 
-        if(alert != null && alert.getText().equalsIgnoreCase("text")) {
+        if(alert != null && alert.getText().contains(text)) {
             alert.accept();
             return true;
         }
