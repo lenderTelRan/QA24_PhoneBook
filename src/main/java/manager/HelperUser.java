@@ -21,6 +21,13 @@ public class HelperUser extends HelperBase {
         type(By.cssSelector("input[name='email']"), email);
         type(By.cssSelector("input[name='password']"), password);
     }
+    public void pause(int sec) {
+        try {
+            Thread.sleep(1000L * sec);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     public void submitLogin() {
         click(By.name("login"));
@@ -28,5 +35,9 @@ public class HelperUser extends HelperBase {
 
     public boolean isLogged() {
         return isElementPresent(By.xpath("//button[text()='Sign Out']"));
+    }
+
+    public void logOut() {
+        click(By.cssSelector("div>button"));
     }
 }
