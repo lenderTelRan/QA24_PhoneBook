@@ -30,6 +30,14 @@ public class HelperBase {
         element.click();
     }
 
+    public void pause(int sec) {
+        try {
+            Thread.sleep(1000L * sec);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public boolean isElementPresent(By locator) {
         List<WebElement> list = wd.findElements(locator);
         return list.size() > 0;

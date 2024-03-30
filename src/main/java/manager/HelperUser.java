@@ -23,12 +23,10 @@ public class HelperUser extends HelperBase {
         type(By.cssSelector("input[name='email']"), email);
         type(By.cssSelector("input[name='password']"), password);
     }
-    public void pause(int sec) {
-        try {
-            Thread.sleep(1000L * sec);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
+
+    public void fillLoginFormWithUser(User user) {
+        type(By.cssSelector("input[name='email']"), user.getEmail());
+        type(By.cssSelector("input[name='password']"), user.getPassword());
     }
 
     public void submitLogin() {
@@ -54,21 +52,9 @@ public class HelperUser extends HelperBase {
         click(By.name("registration"));
     }
 
-    //-------add contact--------
-    public void clickAdd() {
-        click(By.xpath("//a[text()='ADD']"));
-    }
-
-    public void fillContactForm(Contact contact) {
-        type(By.cssSelector("input[placeholder='Name']"), contact.getName());
-        type(By.cssSelector("input[placeholder='Last Name']"), contact.getLastName());
-        type(By.cssSelector("input[placeholder='Phone']"), contact.getPhone());
-        type(By.cssSelector("input[placeholder='email']"), contact.getEmail());
-        type(By.cssSelector("input[placeholder='Address']"), contact.getAddress());
-        type(By.cssSelector("input[placeholder='description']"), contact.getDescription());
-    }
-
-    public void clickSave() {
-        click(By.cssSelector("div.add_form__2rsm2 > button"));
+    public void logIn(User user) {
+        openLoginRegistrationForm();
+        fillLoginFormWithUser(user);
+        submitLogin();
     }
 }
