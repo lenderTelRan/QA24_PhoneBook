@@ -6,6 +6,8 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import java.lang.reflect.Method;
+
 public class LoginTests extends TestBase {
 
     @BeforeMethod
@@ -21,10 +23,12 @@ public class LoginTests extends TestBase {
 
     @Test
     public void loginSuccess() {
+//        logger.info("Start test --> ");
         app.getHelperUser().openLoginRegistrationForm();
         app.getHelperUser().fillLoginRegistrationForm(email, password);
         app.getHelperUser().submitLogin();
         Assert.assertTrue(app.getHelperUser().isLogged());
+//        logger.info("End test --> ");
     }
 
     @Test

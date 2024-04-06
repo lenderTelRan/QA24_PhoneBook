@@ -24,7 +24,7 @@ public class AddContactsTests extends TestBase {
     @Test
     public void addNewContact() {
         Contact contact = Contact.builder()
-                .name("Piter" + i)
+                .name("Pit" + i)
                 .lastName("Parker")
                 .phone("0556355" + i)
                 .email("parker" + i + "2@gmail.com")
@@ -34,6 +34,7 @@ public class AddContactsTests extends TestBase {
 
         app.getHelperContact().openContactForm();
         app.getHelperContact().fillContactForm(contact);
+//        app.getHelperContact().getScreen("src/test/screenshots/screen.png");
         app.getHelperContact().clickSave();
 
         Assert.assertTrue(app.getHelperContact().isContactAdded(contact.getPhone()));
@@ -77,11 +78,11 @@ public class AddContactsTests extends TestBase {
         Assert.assertFalse(app.getHelperContact().isContactAdded(contact.getPhone()));
     }
     @Test
-    public void addNewContactEmptyLastName() {
+    public void addNewContactEmptyLastName() {      //bug
         Contact contact = Contact.builder()
-                .name("Piter")
+                .name("Piter" + i)
                 .lastName("")
-                .phone("0556355" + i)
+                .phone("05563556" + i)
                 .email("parker" + i + "2@gmail.com")
                 .address("Haifa, Israel")
                 .description("coworker")
@@ -89,6 +90,7 @@ public class AddContactsTests extends TestBase {
 
         app.getHelperContact().openContactForm();
         app.getHelperContact().fillContactForm(contact);
+        app.getHelperContact().getScreen("src/test/screenshots/screen" + i + ".png");
         app.getHelperContact().clickSave();
 
         Assert.assertFalse(app.getHelperContact().isContactAdded(contact.getPhone()));

@@ -1,13 +1,14 @@
 package manager;
 
-import org.openqa.selenium.Alert;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import com.google.common.io.Files;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
 public class HelperBase {
@@ -42,7 +43,6 @@ public class HelperBase {
         List<WebElement> list = wd.findElements(locator);
         return list.size() > 0;
     }
-
     public boolean isAlertPresent(String text) {
         Alert alert = new WebDriverWait(wd, 10)
                 .until(ExpectedConditions.alertIsPresent());
@@ -52,5 +52,18 @@ public class HelperBase {
             return true;
         }
         return false;
+    }
+
+    /*
+    screenshot method
+     */
+    public void getScreen(String path) {
+        TakesScreenshot screen = (TakesScreenshot) wd;
+        File temp = screen.getScreenshotAs(OutputType.FILE);
+        try {
+            Files.copy(temp, new File(path));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
