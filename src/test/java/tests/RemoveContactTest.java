@@ -20,12 +20,12 @@ public class RemoveContactTest extends TestBase {
     }
     int i = new Random().nextInt(1000);
 
-    @Test
+    @Test(priority = 1)
     public void removeOneContact() {
         Assert.assertEquals(app.getHelperContact().removeContact(), 1);
 
     }
-    @Test
+    @Test(priority = 2)
     public void removeAllContacts() {
         app.getHelperContact().removeContacts();
         Assert.assertEquals(app.getHelperContact().getMessage(), "No contacts here!");

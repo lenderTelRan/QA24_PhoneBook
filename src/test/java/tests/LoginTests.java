@@ -1,12 +1,18 @@
 package tests;
 
+import manager.DataProviderUser;
+import models.User;
 import org.openqa.selenium.By;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 public class LoginTests extends TestBase {
 
@@ -21,14 +27,30 @@ public class LoginTests extends TestBase {
     String wrongEmail = "test_telrangmail.com";
     String wrongPassword = "test12345";
 
-    @Test
-    public void loginSuccess() {
+    @Test(dataProvider = "loginData", dataProviderClass = DataProviderUser.class)
+    public void loginSuccess(String emailProvider, String passwordProvider) {
 //        logger.info("Start test --> ");
         app.getHelperUser().openLoginRegistrationForm();
-        app.getHelperUser().fillLoginRegistrationForm(email, password);
+        app.getHelperUser().fillLoginRegistrationForm(emailProvider, passwordProvider);
         app.getHelperUser().submitLogin();
         Assert.assertTrue(app.getHelperUser().isLogged());
 //        logger.info("End test --> ");
+    }
+
+    @Test(dataProvider = "loginModels", dataProviderClass = DataProviderUser.class)
+    public void loginSuccessModels(User user) {
+        app.getHelperUser().openLoginRegistrationForm();
+        app.getHelperUser().fillLoginFormWithUser(user);
+        app.getHelperUser().submitLogin();
+        Assert.assertTrue(app.getHelperUser().isLogged());
+    }
+
+    @Test(dataProvider = "loginFile", dataProviderClass = DataProviderUser.class)  // data from file csv
+    public void loginSuccessModelsFile(User user) {
+        app.getHelperUser().openLoginRegistrationForm();
+        app.getHelperUser().fillLoginFormWithUser(user);
+        app.getHelperUser().submitLogin();
+        Assert.assertTrue(app.getHelperUser().isLogged());
     }
 
     @Test

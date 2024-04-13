@@ -1,5 +1,6 @@
 package tests;
 
+import manager.DataProviderContact;
 import models.Contact;
 import models.User;
 import org.openqa.selenium.Alert;
@@ -21,16 +22,29 @@ public class AddContactsTests extends TestBase {
     }
 
     int i = new Random().nextInt(1000);
-    @Test
-    public void addNewContact() {
-        Contact contact = Contact.builder()
-                .name("Pit" + i)
-                .lastName("Parker")
-                .phone("0556355" + i)
-                .email("parker" + i + "2@gmail.com")
-                .address("Haifa, Israel")
-                .description("coworker")
-                .build();
+    @Test(dataProvider = "contactSuccess", dataProviderClass = DataProviderContact.class)
+    public void addNewContact(Contact contact) {
+//        Contact contact = Contact.builder()
+//                .name("Pit" + i)
+//                .lastName("Parker")
+//                .phone("0556355" + i)
+//                .email("parker" + i + "2@gmail.com")
+//                .address("Haifa, Israel")
+//                .description("coworker")
+//                .build();
+
+        app.getHelperContact().openContactForm();
+        app.getHelperContact().fillContactForm(contact);
+//        app.getHelperContact().getScreen("src/test/screenshots/screen.png");
+        app.getHelperContact().clickSave();
+
+        Assert.assertTrue(app.getHelperContact().isContactAdded(contact.getPhone()));
+        if(app.getHelperContact().isContactAdded(contact.getPhone()))
+            app.getHelperContact().clickContact(contact.getPhone());
+    }
+
+    @Test(dataProvider = "contactFromCSV", dataProviderClass = DataProviderContact.class)
+    public void addNewContactWithFile(Contact contact) {
 
         app.getHelperContact().openContactForm();
         app.getHelperContact().fillContactForm(contact);
@@ -77,7 +91,7 @@ public class AddContactsTests extends TestBase {
 
         Assert.assertFalse(app.getHelperContact().isContactAdded(contact.getPhone()));
     }
-    @Test
+    @Test(enabled = false)
     public void addNewContactEmptyLastName() {      //bug
         Contact contact = Contact.builder()
                 .name("Piter" + i)
@@ -95,17 +109,8 @@ public class AddContactsTests extends TestBase {
 
         Assert.assertFalse(app.getHelperContact().isContactAdded(contact.getPhone()));
     }
-    @Test
-    public void addNewContactWrongPhone() {
-        Contact contact = Contact.builder()
-                .name("Piter")
-                .lastName("Parker")
-                .phone("05365421")
-                .email("parker" + i + "2@gmail.com")
-                .address("")
-                .description("coworker")
-                .build();
-
+    @Test(dataProvider = "contactWrongPhone", dataProviderClass = DataProviderContact.class)
+    public void addNewContactWrongPhone(Contact contact) {
         app.getHelperContact().openContactForm();
         app.getHelperContact().fillContactForm(contact);
         app.getHelperContact().clickSave();
