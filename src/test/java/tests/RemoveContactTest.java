@@ -9,7 +9,7 @@ import org.testng.annotations.Test;
 import java.util.Random;
 
 public class RemoveContactTest extends TestBase {
-    @BeforeMethod
+    @BeforeMethod(alwaysRun = true)
     public void preConditions() {
         User user = User.builder().email("test_telran@gmail.com").password("Test@12345").build();
 
@@ -20,7 +20,7 @@ public class RemoveContactTest extends TestBase {
     }
     int i = new Random().nextInt(1000);
 
-    @Test(priority = 1)
+    @Test(priority = 1, groups = {"smoke"})
     public void removeOneContact() {
         Assert.assertEquals(app.getHelperContact().removeContact(), 1);
 
@@ -28,6 +28,7 @@ public class RemoveContactTest extends TestBase {
     @Test(priority = 2)
     public void removeAllContacts() {
         app.getHelperContact().removeContacts();
-        Assert.assertEquals(app.getHelperContact().getMessage(), "No contacts here!");
+        Assert.assertEquals(app.getHelperContact().getMessage(), "No Contacts here!");
     }
+
 }

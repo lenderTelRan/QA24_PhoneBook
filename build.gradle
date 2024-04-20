@@ -25,3 +25,47 @@ dependencies {
 test {
     useTestNG()
 }
+
+task qa(type: Test) {
+    useTestNG(){
+        def suite = System.getProperty('suite', '')
+
+        if (suite.equals('quick')) {
+            suites 'src/test/resources/quick.xml'
+        } else if (suite.equals('smoke')) {
+            suites 'src/test/resources/smoketests.xml'
+        } else {
+            suites 'src/test/resources/testng.xml'
+        }
+//        ./gradlew clean -Dsuite='smoke' qa
+//        ./gradlew clean -Pbrowser=firefox -Dsuite='quick' qa
+//        -D - definition
+//        -P - property
+    }
+}
+
+task smoke(type: Test) {
+    useTestNG() {
+        suites 'src/test/resources/smoketests.xml'
+    }
+    if(project.hasProperty('browser')) {
+        systemProperty 'browser',
+                "${browser}"
+    }
+}
+
+task team(type: Test) {
+    useTestNG() {
+        def groups = System.getProperty('groups')
+        if(groups != null) {
+            includeGroups groups
+        }
+/*
+            *** Run tests by groups ***
+        ./gradlew clean -Dgroups=smoke team
+        ./gradlew clean -Dgroups=regress team
+        ./gradlew clean -Dgroups=retest team
+ */
+        suites 'src/test/resources/base.xml'
+    }
+}

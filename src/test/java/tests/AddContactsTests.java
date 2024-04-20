@@ -12,7 +12,7 @@ import org.testng.annotations.Test;
 import java.util.Random;
 
 public class AddContactsTests extends TestBase {
-    @BeforeClass
+    @BeforeClass(alwaysRun = true)
     public void preConditions() {
         User user = User.builder().email("test_telran@gmail.com").password("Test@12345").build();
 
@@ -22,7 +22,7 @@ public class AddContactsTests extends TestBase {
     }
 
     int i = new Random().nextInt(1000);
-    @Test(dataProvider = "contactSuccess", dataProviderClass = DataProviderContact.class)
+    @Test(dataProvider = "contactSuccess", dataProviderClass = DataProviderContact.class, groups = {"smoke"})
     public void addNewContact(Contact contact) {
 //        Contact contact = Contact.builder()
 //                .name("Pit" + i)
@@ -56,7 +56,7 @@ public class AddContactsTests extends TestBase {
             app.getHelperContact().clickContact(contact.getPhone());
     }
 
-    @Test
+    @Test(groups = {"smoke"})
     public void addNewContactEmptyName() {
         Contact contact = Contact.builder()
                 .name("")
@@ -91,7 +91,7 @@ public class AddContactsTests extends TestBase {
 
         Assert.assertFalse(app.getHelperContact().isContactAdded(contact.getPhone()));
     }
-    @Test(enabled = false)
+    @Test(enabled = false, description = "bug")
     public void addNewContactEmptyLastName() {      //bug
         Contact contact = Contact.builder()
                 .name("Piter" + i)

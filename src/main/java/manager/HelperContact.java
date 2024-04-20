@@ -68,7 +68,7 @@ public class HelperContact extends HelperBase {
 
     public int removeContact() {
         int before = countOfContacts();
-        click(By.cssSelector(".contact-item_card__SOIM"));
+        click(By.cssSelector(".contact-item_card__2SOIM"));
         click(By.xpath("//button[text()='Remove']"));
         pause(2);
         int after = countOfContacts();
@@ -76,7 +76,7 @@ public class HelperContact extends HelperBase {
     }
 
     private int countOfContacts() {
-        return wd.findElements(By.cssSelector(".contact-item_card__SOIM")).size();
+        return wd.findElements(By.cssSelector(".contact-item_card__2SOIM")).size();
     }
 
     public void removeContacts() {

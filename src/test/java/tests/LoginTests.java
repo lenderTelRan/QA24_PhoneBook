@@ -16,7 +16,7 @@ import java.util.List;
 
 public class LoginTests extends TestBase {
 
-    @BeforeMethod
+    @BeforeMethod(alwaysRun = true)
     public void preConditions() {
         if(app.getHelperUser().isLogged())
             app.getHelperUser().logOut();
@@ -27,7 +27,7 @@ public class LoginTests extends TestBase {
     String wrongEmail = "test_telrangmail.com";
     String wrongPassword = "test12345";
 
-    @Test(dataProvider = "loginData", dataProviderClass = DataProviderUser.class)
+    @Test(dataProvider = "loginData", dataProviderClass = DataProviderUser.class, groups = {"smoke"})
     public void loginSuccess(String emailProvider, String passwordProvider) {
 //        logger.info("Start test --> ");
         app.getHelperUser().openLoginRegistrationForm();
@@ -53,7 +53,7 @@ public class LoginTests extends TestBase {
         Assert.assertTrue(app.getHelperUser().isLogged());
     }
 
-    @Test
+    @Test(groups = {"smoke"})
     public void loginWrongEmail() {
         app.getHelperUser().openLoginRegistrationForm();
         app.getHelperUser().fillLoginRegistrationForm(wrongEmail, password);
